@@ -1,4 +1,4 @@
-# 🚀 Proyecto: Gestión de Persistencia con Spring Data JPA
+# Proyecto: Gestión de Persistencia con Spring Data JPA
 
 Este proyecto implementa tres módulos CRUD (Crear, Leer, Actualizar, Borrar) completos utilizando **Spring Boot**, **Spring Data JPA** (Hibernate ORM) y **Thymeleaf** para la gestión de la persistencia de las entidades clave del sistema: `CodPos`, `Usuario` y `Direccion`.
 
