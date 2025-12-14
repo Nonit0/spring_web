@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+    <title>Confirmar Borrado de Usuario</title>
+</head>
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        <main class="container my-5">
+            <h1>Confirmación de Eliminación</h1>
+            <h2 class="text-danger">Usuario a Eliminar</h2>
+
+            <div th:if="${usuario}">
+                <p style="color: red; font-weight: bold;">
+                    ¡ADVERTENCIA! Va a borrar al usuario **<span th:text="${usuario.username}"></span>**. Esta acción es irreversible.
+                </p>
+
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr><td>ID</td><td th:text="${usuario.id}"></td></tr>
+                        <tr><td>Username</td><td th:text="${usuario.username}"></td></tr>
+                        <tr><td>Email</td><td th:text="${usuario.email}"></td></tr>
+                        <tr><td>Rol</td><td th:text="${usuario.rol}"></td></tr>
+                    </tbody>
+                </table>
+
+                <h3 class="mt-4">¿Desea confirmar la eliminación?</h3>
+
+                <form th:action="@{/admin/usuario/del/{id}(id=${usuario.id})}" method="post">
+                    <button type="submit" class="btn btn-danger me-2">
+                        SÍ, Borrar Definitivamente
+                    </button>
+                    <a th:href="@{/admin/usuario/}" class="btn btn-success">
+                        NO, Cancelar y Volver
+                    </a>
+                </form>
+            </div>
+        </main>
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

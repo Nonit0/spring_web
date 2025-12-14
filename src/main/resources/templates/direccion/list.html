@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+    <title>Direcciones del Usuario</title>
+</head>
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        <main class="container my-5">
+            <h1 class="mb-4">
+                Direcciones de: <span th:text="${usuario.username}">NombreUsuario</span>
+            </h1>
+            
+            <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <a th:href="@{/admin/usuario/{idUsuario}/direccion/add(idUsuario=${usuario.id})}" 
+               class="btn btn-success mb-3">
+               Añadir Nueva Dirección
+            </a>
+            
+            <a th:href="@{/admin/usuario/}" class="btn btn-secondary mb-3 ms-2">
+                Volver al Listado de Usuarios
+            </a>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo Vía</th>
+                        <th>Vía</th>
+                        <th>Número</th>
+                        <th>Cód. Postal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="dir : ${direccionesList}">
+                        <td th:text="${dir.id}">1</td>
+                        <td th:text="${dir.tipoVia}">CALLE</td>
+                        <td th:text="${dir.nombreVia}">Gran Vía</td>
+                        <td th:text="${dir.numero}">10</td>
+                        <td th:text="${dir.codPosCP}">28001 - Madrid</td>
+                        <td>
+                            <a th:href="@{/admin/usuario/{idUsuario}/direccion/edit/{idDireccion}(idUsuario=${usuario.id}, idDireccion=${dir.id})}" 
+                                class="btn btn-sm btn-warning">
+                                Editar
+                            </a>
+                            <a th:href="@{/admin/usuario/{idUsuario}/direccion/del/{idDireccion}(idUsuario=${usuario.id}, idDireccion=${dir.id})}" 
+                                class="btn btn-sm btn-danger">
+                                Borrar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div th:if="${direccionesList.isEmpty()}" class="alert alert-info">
+                Este usuario no tiene direcciones registradas.
+            </div>
+
+        </main>
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

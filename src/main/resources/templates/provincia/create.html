@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <div>
+
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        <div class="container">
+        
+        
+        <h4 th:switch="${accion}">
+            <span th:case="añadir">Añadir una provincia</span>
+            <span th:case="editar">Editando la provincia</span>
+            <span th:case="borrar">Borrando la provincia</span>
+        </h4>
+        
+        <form class="row" method="post" th:object="${provincia}"
+             th:action="${accion == 'borrar'} 
+                    ? @{/admin/provincia/del/{id}(id=${provincia.codigo})}
+                    : @{/admin/provincia/save}">
+
+            <div class="mb-3">
+                <label class="form-label" for="codigo">Código de provincia:</label>
+                <input type="number" th:if="${accion}!='borrar'" name="codigo" 
+                    class="form-control"  placeholder="ej: 23" th:field="*{codigo}"/>
+                <input th:unless="${accion}!='borrar'" name="codigo" 
+                    th:field="*{codigo}" class="form-control"  disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="nombre">Nombre de la provincia:</label>
+                <input type="text" th:if="${accion}!='borrar'" name="nombre" 
+                    th:field="*{nombre}" class="form-control" placeholder="ej: Jaén"/>
+                <input th:unless="${accion}!='borrar'" name="nombre" 
+                    th:field="*{nombre}" class="form-control" disabled/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="comunidad">Comunidad Autónoma:</label>
+                <input th:if="${accion}!='borrar'" name="comunidad" 
+                    th:field="*{comunidad}" class="form-control" placeholder="ej: Andalucía"/>
+                <input th:unless="${accion}!='borrar'" name="comunidad" 
+                    th:field="*{comunidad}" class="form-control" disabled/>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success">Enviar!</button>
+                <button type="reset" class="btn btn-danger">Cancelar</button>
+            </div>
+        </form>
+
+        </div>
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

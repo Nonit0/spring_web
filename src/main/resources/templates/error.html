@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+            <h3><span th:text="${titulo} != null ? ${titulo} : 'Error al procesar su petición' "></span></h3>
+
+            <p th:text="${mensaje} != null ? ${mensaje} : 'Ha ocurrido un error inesperado.
+            vuelva a intentarlo más tarde o contacte con el administrador.' "></p>
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

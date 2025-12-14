@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre Provincia</th>
+                    <th>Comunidad Autónoma</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="provincia : ${listaProvincias}">
+                    <td th:text="${provincia.codigo}"></td>
+                    <td th:text="${provincia.nombre}"></td>
+                    <td th:text="${provincia.comunidad}"></td>
+                    <td> <a class="btn btn-success" th:href="|/admin/provincia/edit/${provincia.codigo}|">Editar</a> </td>
+                    <td> <a class="btn btn-danger" th:href="|/admin/provincia/del/${provincia.codigo}|">Borrar</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

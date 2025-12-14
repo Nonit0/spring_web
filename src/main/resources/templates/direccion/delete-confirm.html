@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+    <title>Confirmar Borrado</title>
+</head>
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        <main class="container my-5">
+            <h1 class="text-danger">Confirmar Eliminación de Dirección</h1>
+            <h5 class="mb-4">Usuario: <span th:text="${usuario.username}"></span></h5>
+
+            <div class="alert alert-warning">
+                ¿Está seguro de que desea eliminar la siguiente dirección? Esta acción es irreversible.
+            </div>
+
+            <div class="card p-3 mb-4">
+                <p><strong>ID de Dirección:</strong> <span th:text="${direccion.id}"></span></p>
+                <p><strong>Dirección:</strong> 
+                    <span th:text="${direccion.tipoVia}"></span> 
+                    <span th:text="${direccion.nombreVia}"></span>, 
+                    <span th:text="${direccion.numero}"></span>
+                </p>
+                <p><strong>Código Postal:</strong> <span th:text="${direccion.codPosCP}"></span></p>
+            </div>
+
+            <form th:action="@{/admin/usuario/{idUsuario}/direccion/del/{idDireccion}(idUsuario=${usuario.id}, idDireccion=${direccion.id})}" 
+                    method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger me-2">
+                    Sí, Eliminar Dirección
+                </button>
+            </form>
+
+            <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${usuario.id})}" class="btn btn-secondary">
+                Cancelar
+            </a>
+
+        </main>
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

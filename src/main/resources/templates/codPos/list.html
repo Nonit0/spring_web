@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Código Provincia</th>
+                    <th>Municipio</th>
+                    <th>Provincia</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="codPos : ${listaCodPos}">
+                    <td th:text="${codPos.cp}"></td>
+                    <td th:text="${codPos.municipio}"></td>
+                    <td th:text="${codPos.provincia.nombre}"></td>
+                    <td> <a class="btn btn-success" th:href="|/admin/codPos/edit/${codPos.cp}|">Editar</a> </td>
+                    <td> <a class="btn btn-danger" th:href="|/admin/codPos/del/${codPos.cp}|">Borrar</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

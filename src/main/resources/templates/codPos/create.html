@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        
+        <h4 th:switch="${accion}">
+            <span th:case="añadir">Añadir un Código Postal</span>
+            <span th:case="editar">Editando el Código Postal</span>
+        </h4>
+        
+        <form class="row" method="post" th:object="${codPos}"
+            th:action="${accion == 'añadir'} 
+                    ? @{/admin/codPos/add} 
+                    : @{/admin/codPos/edit/{cp}(cp=*{cp})}"> 
+
+            <div class="mb-3">
+                <label class="form-label" for="cp">Código Postal:</label>
+                <input type="number" 
+                    th:field="*{cp}" 
+                    class="form-control" 
+                    placeholder="ej: 14001"
+                    th:readonly="${accion == 'editar'}" />
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label" for="municipio">Municipio:</label>
+                <input type="text" 
+                    th:field="*{municipio}" 
+                    class="form-control" 
+                    placeholder="ej: Jaén"
+                    required />
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label" for="provinciaId">Provincia:</label>
+                
+                <select th:field="*{provinciaId}" class="form-select" required> <!-- <select> que enlaza con *{provinciaId} y recorre provinciasList-->
+                    <option value="">-- Seleccione una provincia --</option>
+                    <option th:each="provincia : ${provinciasList}" 
+                            th:value="${provincia.codigo}" 
+                            th:text="${provincia.nombre}">Provincia Ejemplo</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success">Guardar Código Postal</button>
+                <a th:href="@{/admin/codPos/}" class="btn btn-danger">Cancelar y Volver</a>
+            </div>
+        </form>
+
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        <main class="container my-5">
+            <h1>Gestión de Usuarios</h1>
+            <a th:href="@{/admin/usuario/add}" class="btn btn-primary mb-3">Añadir Nuevo Usuario</a>
+
+            <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}">Mensaje de éxito.</div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}">Mensaje de error.</div>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>NIF</th>
+                        <th>Teléfono</th>
+                        <th>Rol</th>
+                        <th>Activo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${usuariosList}"> 
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.nif}"></td>
+                        <td th:text="${user.telefono}"></td>
+                        <td th:text="${user.rol}"></td>
+                        <td>
+                            <span th:text="${user.enabled} ? 'SÍ' : 'NO'" 
+                                th:class="${user.enabled} ? 'badge bg-success' : 'badge bg-danger'"></span>
+                        </td>
+                        
+                        <td>
+                            <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${user.id})}" 
+                            class="btn btn-sm btn-info me-2">
+                                Ver direcciones
+                            </a>
+                            
+                            <a th:href="@{/admin/usuario/edit/{id}(id=${user.id})}" class="btn btn-sm btn-warning">Editar</a>
+                            <a th:href="@{/admin/usuario/del/{id}(id=${user.id})}" class="btn btn-sm btn-danger">Borrar</a>
+                        </td>
+                        </tr>
+                </tbody>
+            </table>
+        </main>
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>

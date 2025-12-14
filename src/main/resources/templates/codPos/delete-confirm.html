@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+    <title th:text="${titulo} ?: 'Confirmar Borrado'"></title>
+</head>
+
+<body>
+    <div>
+        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
+        
+        <main class="container my-5">
+            <h1 th:text="${titulo} ?: 'Confirmación de Eliminación'">Confirmación de Eliminación</h1>
+            <h2>Código Postal</h2>
+
+            <div th:if="${codPos}">
+                
+                <p style="color: red; font-weight: bold;">
+                    ¡ADVERTENCIA! Está a punto de borrar el siguiente Código Postal. Esta acción es irreversible.
+                </p>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Código Postal (CP)</td>
+                            <td th:text="${codPos.cp}">14001</td>
+                        </tr>
+                        <tr>
+                            <td>Municipio</td>
+                            <td th:text="${codPos.municipio}">Ciudad Ejemplo</td> 
+                        </tr>
+                        </tbody>
+                </table>
+
+                <h3 class="mt-4">¿Desea confirmar la eliminación?</h3>
+
+                <form 
+                    th:action="@{/admin/codPos/del/{cp}(cp=${codPos.cp})}" 
+                    method="post">
+                    
+                    <button type="submit" class="btn btn-danger me-2">
+                        SÍ, Borrar Definitivamente
+                    </button>
+                    
+                    <a th:href="@{/admin/codPos/}">
+                        <button type="button" class="btn btn-success">
+                            NO, Cancelar y Volver
+                        </button>
+                    </a>
+                    
+                </form>
+
+            </div>
+
+            <div th:unless="${codPos}">
+                <p class="text-danger">No se encontró el Código Postal para confirmar la eliminación.</p>
+                <a th:href="@{/admin/codPos/}" class="btn btn-primary">Volver al listado</a>
+            </div>
+        </main>
+        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+    </div>
+</body>
+</html>
