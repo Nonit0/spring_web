@@ -95,11 +95,14 @@ Implementación de la gestión de direcciones bajo el patrón **Maestro-Detalle*
 
 ---
 
-## ⚙️ Consideraciones Técnicas
+## ⚙️ Controladores y Consideraciones Técnicas
 
 ### Controladores Base
 * **`MainController`:** Gestiona las rutas principales (`/`, `/login`, `/denegado`, `/error`).
-* **`ProvinciaController`:** Implementa el CRUD para la entidad `Provincia`.
+* **`ProvinciaController`:** Implementa el CRUD para la entidad `Provincia` (`/admin/provincia`).
+* **`CodPosController`:** Implementa el CRUD para la entidad `CodPos` (`/admin/codpos`).
+* **`UsuarioController`:** Maneja las operaciones CRUD maestro-detalle de `Direccion` (`/admin/usuario/{idUsuario}/direccion...`).
+* **`UsuarioAdminController`:** Implementa el CRUD para la entidad `Usuario` (`/admin/usuario...`).
 
 ### Implementación
 * Uso de **Spring Data JPA** para los repositorios.
