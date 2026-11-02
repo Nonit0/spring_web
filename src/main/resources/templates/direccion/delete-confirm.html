@@ -4,39 +4,35 @@
     <title>Confirmar Borrado</title>
 </head>
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        <main class="container my-5">
-            <h1 class="text-danger">Confirmar Eliminación de Dirección</h1>
-            <h5 class="mb-4">Usuario: <span th:text="${usuario.username}"></span></h5>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-            <div class="alert alert-warning">
-                ¿Está seguro de que desea eliminar la siguiente dirección? Esta acción es irreversible.
+    <main class="page">
+        <div class="card card--lg confirm">
+            <div class="confirm-head">Confirmar Eliminación de Dirección</div>
+            <div class="confirm-body">
+                <h1>¿Borrar dirección?</h1>
+                <span class="kicker">Usuario: <span th:text="${usuario.username}"></span></span>
+                <div class="confirm-target">
+                    <strong>
+                        <span th:text="${direccion.tipoVia}"></span>
+                        <span th:text="${direccion.nombreVia}"></span>,
+                        <span th:text="${direccion.numero}"></span>
+                    </strong>
+                    <span class="mono">
+                        ID <span th:text="${direccion.id}"></span> · CP <span th:text="${direccion.codPosCP}"></span>
+                    </span>
+                </div>
+                <div class="alert alert--warn">¿Está seguro de que desea eliminar la siguiente dirección? Esta acción es irreversible.</div>
             </div>
-
-            <div class="card p-3 mb-4">
-                <p><strong>ID de Dirección:</strong> <span th:text="${direccion.id}"></span></p>
-                <p><strong>Dirección:</strong> 
-                    <span th:text="${direccion.tipoVia}"></span> 
-                    <span th:text="${direccion.nombreVia}"></span>, 
-                    <span th:text="${direccion.numero}"></span>
-                </p>
-                <p><strong>Código Postal:</strong> <span th:text="${direccion.codPosCP}"></span></p>
+            <div class="confirm-actions">
+                <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${usuario.id})}" class="btn">Cancelar</a>
+                <form th:action="@{/admin/usuario/{idUsuario}/direccion/del/{idDireccion}(idUsuario=${usuario.id}, idDireccion=${direccion.id})}" method="post">
+                    <button type="submit" class="btn btn--danger">Sí, Eliminar Dirección</button>
+                </form>
             </div>
+        </div>
+    </main>
 
-            <form th:action="@{/admin/usuario/{idUsuario}/direccion/del/{idDireccion}(idUsuario=${usuario.id}, idDireccion=${direccion.id})}" 
-                    method="post" class="d-inline">
-                <button type="submit" class="btn btn-danger me-2">
-                    Sí, Eliminar Dirección
-                </button>
-            </form>
-
-            <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${usuario.id})}" class="btn btn-secondary">
-                Cancelar
-            </a>
-
-        </main>
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

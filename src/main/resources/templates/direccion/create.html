@@ -4,61 +4,61 @@
     <title>Formulario Dirección</title>
 </head>
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        <main class="container my-5">
-            <h1 th:text="${accion == 'añadir'} ? 'Añadir Dirección' : 'Editar Dirección ' + ${direccion.id}">Formulario Dirección</h1>
-            <h5 class="mb-4">Para el usuario: <span th:text="${usuario.username}"></span></h5>
-            
-            <div th:if="${error}" class="alert alert-danger" th:text="${error}">Error de formulario.</div>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-            <form th:object="${direccion}" 
-                th:action="${accion == 'añadir'} 
-                            ? @{/admin/usuario/{idUsuario}/direccion/add(idUsuario=${usuario.id})} 
-                            : @{/admin/usuario/{idUsuario}/direccion/edit/{idDireccion}(idUsuario=${usuario.id}, idDireccion=*{id})}" 
-                method="post" class="row g-3">
-                
-                <input type="hidden" th:field="*{id}" th:if="${accion == 'editar'}"/>
+    <main class="page page--narrow">
+        <div class="page-head-text">
+            <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${usuario.id})}" class="back-link">← Direcciones</a>
+            <h1 class="title" th:text="${accion == 'añadir'} ? 'Añadir Dirección' : 'Editar Dirección ' + ${direccion.id}">Formulario Dirección</h1>
+            <span class="kicker">Para el usuario: <span th:text="${usuario.username}"></span></span>
+        </div>
 
-                <input type="hidden" th:field="*{usuarioId}" />
+        <div th:if="${error}" class="alert alert--error" th:text="${error}">Error de formulario.</div>
 
-                <div class="col-md-6">
-                    <label for="tipoVia" class="form-label">Tipo de Vía:</label>
-                    <select th:field="*{tipoVia}" class="form-select" required>
+        <form th:object="${direccion}"
+              th:action="${accion == 'añadir'}
+                          ? @{/admin/usuario/{idUsuario}/direccion/add(idUsuario=${usuario.id})}
+                          : @{/admin/usuario/{idUsuario}/direccion/edit/{idDireccion}(idUsuario=${usuario.id}, idDireccion=*{id})}"
+              method="post" class="card card--lg card--pad">
+
+            <input type="hidden" th:field="*{id}" th:if="${accion == 'editar'}"/>
+            <input type="hidden" th:field="*{usuarioId}" />
+
+            <div class="form-grid">
+                <label class="field" for="tipoVia">
+                    <span class="field-label">Tipo de Vía</span>
+                    <select th:field="*{tipoVia}" class="select" required>
                         <option value="">Seleccione...</option>
-                        <option th:each="tipo : ${tiposVia}" 
-                                th:value="${tipo}" 
-                                th:text="${tipo}">CALLE</option>
+                        <option th:each="tipo : ${tiposVia}" th:value="${tipo}" th:text="${tipo}">CALLE</option>
                     </select>
-                </div>
-                
-                <div class="col-md-6">
-                    <label for="nombreVia" class="form-label">Nombre de la Vía:</label>
-                    <input type="text" th:field="*{nombreVia}" class="form-control" required maxlength="50" />
-                </div>
-                
-                <div class="col-md-6">
-                    <label for="numero" class="form-label">Número:</label>
-                    <input type="number" th:field="*{numero}" class="form-control" required min="1" max="9999"/>
-                </div>
+                </label>
 
-                <div class="col-md-6">
-                    <label for="codPosCP" class="form-label">Código Postal / Municipio:</label>
-                    <select th:field="*{codPosCP}" class="form-select" required>
+                <label class="field" for="nombreVia">
+                    <span class="field-label">Nombre de la Vía</span>
+                    <input type="text" th:field="*{nombreVia}" class="input" required maxlength="50" />
+                </label>
+
+                <label class="field" for="numero">
+                    <span class="field-label">Número</span>
+                    <input type="number" th:field="*{numero}" class="input input--mono" required min="1" max="9999"/>
+                </label>
+
+                <label class="field" for="codPosCP">
+                    <span class="field-label">Código Postal / Municipio</span>
+                    <select th:field="*{codPosCP}" class="select" required>
                         <option value="">Seleccione un Código Postal...</option>
-                        <option th:each="cp : ${codigosPostales}" 
-                                th:value="${cp}" 
-                                th:text="${cp}"></option>
+                        <option th:each="cp : ${codigosPostales}" th:value="${cp}" th:text="${cp}"></option>
                     </select>
-                </div>
+                </label>
+            </div>
 
-                <div class="col-12 mt-4">
-                    <button type="submit" class="btn btn-success me-2">Guardar Dirección</button>
-                    <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${usuario.id})}" class="btn btn-danger">Cancelar y Volver</a>
-                </div>
-            </form>
-        </main>
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn--ok">Guardar Dirección</button>
+                <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${usuario.id})}" class="btn">Cancelar y Volver</a>
+            </div>
+        </form>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

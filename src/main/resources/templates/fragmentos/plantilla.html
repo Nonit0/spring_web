@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
 
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <main class="page">
+        <!-- contenido -->
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

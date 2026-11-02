@@ -4,16 +4,22 @@
     <title>Lista de Usuarios</title>
 </head>
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        <main class="container my-5">
-            <h1>Gestión de Usuarios</h1>
-            <a th:href="@{/admin/usuario/add}" class="btn btn-primary mb-3">Añadir Nuevo Usuario</a>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-            <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}">Mensaje de éxito.</div>
-            <div th:if="${error}" class="alert alert-danger" th:text="${error}">Mensaje de error.</div>
+    <main class="page">
+        <div class="page-head">
+            <div class="page-head-text">
+                <span class="kicker">Admin / Usuarios</span>
+                <h1 class="title">Gestión de Usuarios</h1>
+            </div>
+            <a th:href="@{/admin/usuario/add}" class="btn btn--primary">+ Añadir Nuevo Usuario</a>
+        </div>
 
-            <table class="table table-bordered table-striped">
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}">Mensaje de éxito.</div>
+        <div th:if="${error}" class="alert alert--error" th:text="${error}">Mensaje de error.</div>
+
+        <div class="table-wrap">
+            <table class="table" style="min-width:980px">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -23,36 +29,34 @@
                         <th>Teléfono</th>
                         <th>Rol</th>
                         <th>Activo</th>
-                        <th>Acciones</th>
+                        <th class="t-right">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="user : ${usuariosList}"> 
-                        <td th:text="${user.id}"></td>
-                        <td th:text="${user.username}"></td>
+                    <tr th:each="user : ${usuariosList}">
+                        <td class="t-mono" th:text="|#${user.id}|"></td>
+                        <td class="t-strong" th:text="${user.username}"></td>
                         <td th:text="${user.email}"></td>
-                        <td th:text="${user.nif}"></td>
-                        <td th:text="${user.telefono}"></td>
-                        <td th:text="${user.rol}"></td>
+                        <td class="t-mono" th:text="${user.nif}"></td>
+                        <td class="t-mono" th:text="${user.telefono}"></td>
+                        <td><span class="badge" th:classappend="${#strings.toString(user.rol) == 'ADMIN'} ? 'badge--accent'" th:text="${user.rol}"></span></td>
                         <td>
-                            <span th:text="${user.enabled} ? 'SÍ' : 'NO'" 
-                                th:class="${user.enabled} ? 'badge bg-success' : 'badge bg-danger'"></span>
+                            <span th:text="${user.enabled} ? 'SÍ' : 'NO'"
+                                  th:class="${user.enabled} ? 'badge badge--ok' : 'badge badge--danger'"></span>
                         </td>
-                        
                         <td>
-                            <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${user.id})}" 
-                            class="btn btn-sm btn-info me-2">
-                                Ver direcciones
-                            </a>
-                            
-                            <a th:href="@{/admin/usuario/edit/{id}(id=${user.id})}" class="btn btn-sm btn-warning">Editar</a>
-                            <a th:href="@{/admin/usuario/del/{id}(id=${user.id})}" class="btn btn-sm btn-danger">Borrar</a>
+                            <div class="btn-group">
+                                <a th:href="@{/admin/usuario/{idUsuario}/direccion(idUsuario=${user.id})}" class="btn btn--sm btn--accent">Ver direcciones</a>
+                                <a th:href="@{/admin/usuario/edit/{id}(id=${user.id})}" class="btn btn--sm btn--primary">Editar</a>
+                                <a th:href="@{/admin/usuario/del/{id}(id=${user.id})}" class="btn btn--sm btn--danger">Borrar</a>
+                            </div>
                         </td>
-                        </tr>
+                    </tr>
                 </tbody>
             </table>
-        </main>
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

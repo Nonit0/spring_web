@@ -1,35 +1,51 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
 
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Nombre Provincia</th>
-                    <th>Comunidad Autónoma</th>
-                    <th>Editar</th>
-                    <th>Borrar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="provincia : ${listaProvincias}">
-                    <td th:text="${provincia.codigo}"></td>
-                    <td th:text="${provincia.nombre}"></td>
-                    <td th:text="${provincia.comunidad}"></td>
-                    <td> <a class="btn btn-success" th:href="|/admin/provincia/edit/${provincia.codigo}|">Editar</a> </td>
-                    <td> <a class="btn btn-danger" th:href="|/admin/provincia/del/${provincia.codigo}|">Borrar</a></td>
-                </tr>
-            </tbody>
-        </table>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <main class="page">
+        <div class="page-head">
+            <div class="page-head-text">
+                <span class="kicker">Admin / Provincias</span>
+                <h1 class="title">Provincias</h1>
+            </div>
+            <a href="/admin/provincia/add" class="btn btn--primary">+ Alta provincia</a>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
+
+        <div class="table-wrap">
+            <table class="table" style="min-width:640px">
+                <thead>
+                    <tr>
+                        <th style="width:120px">Código</th>
+                        <th>Nombre Provincia</th>
+                        <th>Comunidad Autónoma</th>
+                        <th class="t-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="provincia : ${listaProvincias}">
+                        <td><span class="code-chip" th:text="${provincia.codigo}"></span></td>
+                        <td class="t-strong" th:text="${provincia.nombre}"></td>
+                        <td th:text="${provincia.comunidad}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn--sm btn--primary" th:href="|/admin/provincia/edit/${provincia.codigo}|">Editar</a>
+                                <a class="btn btn--sm btn--danger" th:href="|/admin/provincia/del/${provincia.codigo}|">Borrar</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

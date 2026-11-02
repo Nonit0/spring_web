@@ -1,16 +1,51 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
 
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        
-        <h2>Tienda Virtual de Camisetas</h2>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <main class="page" style="gap:56px">
+        <section class="split">
+            <div class="stack">
+                <span class="kicker kicker--lima">Tienda online</span>
+                <h1 class="title title--xl">Tienda Virtual de <span class="title-mark">Camisetas</span></h1>
+                <p class="lead">Camisetas de algodón con envío a toda España. Elige modelo, talla y color.</p>
+                <div class="row-actions">
+                    <a href="/admin/usuario" class="btn btn--dark">Entrar al panel →</a>
+                    <a href="/register" class="btn">Crear cuenta</a>
+                </div>
+            </div>
+            <!-- Sustituye el fondo por una foto: style="background-image:url('/img/hero.jpg')" -->
+            <div class="hero-art">
+                <span class="sticker">Nueva<br>colección</span>
+            </div>
+        </section>
+
+        <section class="stack">
+            <div class="section-head">
+                <h2>Administración</h2>
+                <span class="mono">Requiere rol ADMIN</span>
+            </div>
+            <div class="tiles">
+                <a href="/admin/provincia" class="card tile tile--lima">
+                    <span class="mono">/admin/provincia</span>
+                    <strong>Provincias</strong>
+                </a>
+                <a href="/admin/codPos" class="card tile tile--morado">
+                    <span class="mono">/admin/codPos</span>
+                    <strong>Códigos postales</strong>
+                </a>
+                <a href="/admin/usuario" class="card tile tile--naranja">
+                    <span class="mono">/admin/usuario</span>
+                    <strong>Usuarios</strong>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

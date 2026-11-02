@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
 
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        <div class="container">
-            <h2>Tienda Virtual de Camisetas</h2>
-            <h4>Acceso denegado</h4>
-            <p>Ha intentado acceder a una página que requiere Mayores Privilegios</p>
-        </div>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <main class="page page--center">
+        <div class="err-code">403<span class="kicker kicker--lima">Solo admin</span></div>
+        <h1 class="title title--md">Acceso denegado</h1>
+        <p class="lead">Ha intentado acceder a una página que requiere Mayores Privilegios</p>
+        <div class="row-actions" style="justify-content:center">
+            <a href="/" class="btn btn--dark">Volver al inicio</a>
+            <a href="/logout" class="btn">Cambiar de usuario</a>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

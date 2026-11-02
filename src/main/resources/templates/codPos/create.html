@@ -5,54 +5,51 @@
 </head>
 
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        
-        <h4 th:switch="${accion}">
-            <span th:case="añadir">Añadir un Código Postal</span>
-            <span th:case="editar">Editando el Código Postal</span>
-        </h4>
-        
-        <form class="row" method="post" th:object="${codPos}"
-            th:action="${accion == 'añadir'} 
-                    ? @{/admin/codPos/add} 
-                    : @{/admin/codPos/edit/{cp}(cp=*{cp})}"> 
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-            <div class="mb-3">
-                <label class="form-label" for="cp">Código Postal:</label>
-                <input type="number" 
-                    th:field="*{cp}" 
-                    class="form-control" 
-                    placeholder="ej: 14001"
-                    th:readonly="${accion == 'editar'}" />
+    <main class="page page--xs">
+        <div class="page-head-text">
+            <a th:href="@{/admin/codPos/}" class="back-link">← Códigos Postales</a>
+            <h1 class="title" th:switch="${accion}">
+                <span th:case="añadir">Añadir un Código Postal</span>
+                <span th:case="editar">Editando el Código Postal</span>
+            </h1>
+        </div>
+
+        <form class="card card--lg card--pad" method="post" th:object="${codPos}"
+              th:action="${accion == 'añadir'}
+                    ? @{/admin/codPos/add}
+                    : @{/admin/codPos/edit/{cp}(cp=*{cp})}">
+
+            <div class="form-grid form-grid--1-2">
+                <label class="field" for="cp">
+                    <span class="field-label">Código Postal</span>
+                    <input type="number" th:field="*{cp}" class="input input--mono"
+                           placeholder="ej: 14001" th:readonly="${accion == 'editar'}" />
+                </label>
+                <label class="field" for="municipio">
+                    <span class="field-label">Municipio</span>
+                    <input type="text" th:field="*{municipio}" class="input" placeholder="ej: Jaén" required />
+                </label>
             </div>
-            
-            <div class="mb-3">
-                <label class="form-label" for="municipio">Municipio:</label>
-                <input type="text" 
-                    th:field="*{municipio}" 
-                    class="form-control" 
-                    placeholder="ej: Jaén"
-                    required />
-            </div>
-            
-            <div class="mb-3">
-                <label class="form-label" for="provinciaId">Provincia:</label>
-                
-                <select th:field="*{provinciaId}" class="form-select" required> <!-- <select> que enlaza con *{provinciaId} y recorre provinciasList-->
+
+            <label class="field" for="provinciaId">
+                <span class="field-label">Provincia</span>
+                <select th:field="*{provinciaId}" class="select" required>
                     <option value="">-- Seleccione una provincia --</option>
-                    <option th:each="provincia : ${provinciasList}" 
-                            th:value="${provincia.codigo}" 
+                    <option th:each="provincia : ${provinciasList}"
+                            th:value="${provincia.codigo}"
                             th:text="${provincia.nombre}">Provincia Ejemplo</option>
                 </select>
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-success">Guardar Código Postal</button>
-                <a th:href="@{/admin/codPos/}" class="btn btn-danger">Cancelar y Volver</a>
+            </label>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn--ok">Guardar Código Postal</button>
+                <a th:href="@{/admin/codPos/}" class="btn">Cancelar y Volver</a>
             </div>
         </form>
+    </main>
 
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>
