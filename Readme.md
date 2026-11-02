@@ -2,6 +2,22 @@
 
 Este proyecto implementa módulos CRUD (Crear, Leer, Actualizar, Borrar) utilizando **Spring Boot**, **Spring Data JPA** (Hibernate ORM) y **Thymeleaf** para la gestión de la persistencia de las entidades clave del sistema: `Provincia`, `CodPos`, `Usuario` y `Direccion`.
 
+## 📸 Capturas
+
+![Página de inicio](docs/capturas/inicio.png)
+
+| Gestión de usuarios | Provincias |
+| --- | --- |
+| ![Listado de usuarios](docs/capturas/usuarios.png) | ![Listado de provincias](docs/capturas/provincias.png) |
+
+| Inicio de sesión | Alta de usuario |
+| --- | --- |
+| ![Inicio de sesión](docs/capturas/login.png) | ![Formulario de alta de usuario](docs/capturas/alta-usuario.png) |
+
+| Acceso denegado | Vista móvil |
+| --- | --- |
+| ![Página de acceso denegado](docs/capturas/denegado.png) | <img src="docs/capturas/inicio-movil.png" alt="Inicio en móvil" width="280"> |
+
 ## Objetivos del Proyecto
 
 El objetivo principal es demostrar la competencia en la gestión de la persistencia de datos mediante el uso de herramientas ORM, desarrollando interfaces de administración funcionales y robustas para las entidades.
