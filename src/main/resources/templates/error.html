@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
 
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-            <h3><span th:text="${titulo} != null ? ${titulo} : 'Error al procesar su petición' "></span></h3>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-            <p th:text="${mensaje} != null ? ${mensaje} : 'Ha ocurrido un error inesperado.
-            vuelva a intentarlo más tarde o contacte con el administrador.' "></p>
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <main class="page page--center">
+        <div class="err-digits" aria-hidden="true">
+            <th:block th:with="code=${status} != null ? ${#strings.toString(status)} : '500'">
+                <span th:text="${#strings.substring(code,0,1)}">5</span>
+                <span th:text="${#strings.substring(code,1,2)}">0</span>
+                <span th:text="${#strings.substring(code,2,3)}">0</span>
+            </th:block>
+        </div>
+        <h1 class="title title--md"><span th:text="${titulo} != null ? ${titulo} : 'Error al procesar su petición' "></span></h1>
+        <p class="lead" th:text="${mensaje} != null ? ${mensaje} : 'Ha ocurrido un error inesperado.
+        vuelva a intentarlo más tarde o contacte con el administrador.' "></p>
+        <a href="/" class="btn btn--dark">Volver al inicio</a>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

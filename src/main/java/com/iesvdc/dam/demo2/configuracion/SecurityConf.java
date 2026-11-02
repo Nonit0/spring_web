@@ -39,7 +39,7 @@ public class SecurityConf {
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests((request) -> request
-                        .requestMatchers("/webjars/**", "/img/**", "/js/**",
+                        .requestMatchers("/", "/css/**", "/webjars/**", "/img/**", "/js/**",
                                 "/register/**", "/ayuda/**", "/login", "/login/**",
                                 "/codpos/**", "/denegado", "/error", "/inserta",
                                 "/acerca")

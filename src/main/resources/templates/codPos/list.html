@@ -1,36 +1,51 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
 
 <body>
-    <div>
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Código Provincia</th>
-                    <th>Municipio</th>
-                    <th>Provincia</th>
-                    <th>Editar</th>
-                    <th>Borrar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="codPos : ${listaCodPos}">
-                    <td th:text="${codPos.cp}"></td>
-                    <td th:text="${codPos.municipio}"></td>
-                    <td th:text="${codPos.provincia.nombre}"></td>
-                    <td> <a class="btn btn-success" th:href="|/admin/codPos/edit/${codPos.cp}|">Editar</a> </td>
-                    <td> <a class="btn btn-danger" th:href="|/admin/codPos/del/${codPos.cp}|">Borrar</a></td>
-                </tr>
-            </tbody>
-        </table>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
+    <main class="page">
+        <div class="page-head">
+            <div class="page-head-text">
+                <span class="kicker">Admin / Códigos postales</span>
+                <h1 class="title">Códigos Postales</h1>
+            </div>
+            <a href="/admin/codPos/add" class="btn btn--primary">+ Alta Código Postal</a>
+        </div>
 
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
+
+        <div class="table-wrap">
+            <table class="table" style="min-width:640px">
+                <thead>
+                    <tr>
+                        <th style="width:150px">Código Postal</th>
+                        <th>Municipio</th>
+                        <th>Provincia</th>
+                        <th class="t-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="codPos : ${listaCodPos}">
+                        <td><span class="code-chip code-chip--lima" th:text="${codPos.cp}"></span></td>
+                        <td class="t-strong" th:text="${codPos.municipio}"></td>
+                        <td th:text="${codPos.provincia.nombre}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn--sm btn--primary" th:href="|/admin/codPos/edit/${codPos.cp}|">Editar</a>
+                                <a class="btn btn--sm btn--danger" th:href="|/admin/codPos/del/${codPos.cp}|">Borrar</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

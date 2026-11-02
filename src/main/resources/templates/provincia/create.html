@@ -1,56 +1,61 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
 
 <body>
-    <div>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
 
-        <nav th:replace="~{fragmentos/general.html :: navegacion}"></nav>
-        <div class="container">
-        
-        
-        <h4 th:switch="${accion}">
-            <span th:case="añadir">Añadir una provincia</span>
-            <span th:case="editar">Editando la provincia</span>
-            <span th:case="borrar">Borrando la provincia</span>
-        </h4>
-        
-        <form class="row" method="post" th:object="${provincia}"
-             th:action="${accion == 'borrar'} 
+    <main class="page page--xs">
+        <div class="page-head-text">
+            <a href="/admin/provincia" class="back-link">← Provincias</a>
+            <h1 class="title" th:switch="${accion}">
+                <span th:case="añadir">Añadir una provincia</span>
+                <span th:case="editar">Editando la provincia</span>
+                <span th:case="borrar">Borrando la provincia</span>
+            </h1>
+        </div>
+
+        <div th:if="${accion == 'borrar'}" class="alert alert--warn">Va a borrar esta provincia. Esta acción es irreversible.</div>
+
+        <form class="card card--lg card--pad" method="post" th:object="${provincia}"
+              th:action="${accion == 'borrar'}
                     ? @{/admin/provincia/del/{id}(id=${provincia.codigo})}
                     : @{/admin/provincia/save}">
 
-            <div class="mb-3">
-                <label class="form-label" for="codigo">Código de provincia:</label>
-                <input type="number" th:if="${accion}!='borrar'" name="codigo" 
-                    class="form-control"  placeholder="ej: 23" th:field="*{codigo}"/>
-                <input th:unless="${accion}!='borrar'" name="codigo" 
-                    th:field="*{codigo}" class="form-control"  disabled />
+            <div class="form-grid form-grid--1-2">
+                <label class="field" for="codigo">
+                    <span class="field-label">Código de provincia</span>
+                    <input type="number" th:if="${accion}!='borrar'" name="codigo"
+                           class="input input--mono" placeholder="ej: 23" th:field="*{codigo}"/>
+                    <input th:unless="${accion}!='borrar'" name="codigo"
+                           th:field="*{codigo}" class="input input--mono" disabled />
+                </label>
+                <label class="field" for="nombre">
+                    <span class="field-label">Nombre de la provincia</span>
+                    <input type="text" th:if="${accion}!='borrar'" name="nombre"
+                           th:field="*{nombre}" class="input" placeholder="ej: Jaén"/>
+                    <input th:unless="${accion}!='borrar'" name="nombre"
+                           th:field="*{nombre}" class="input" disabled/>
+                </label>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="nombre">Nombre de la provincia:</label>
-                <input type="text" th:if="${accion}!='borrar'" name="nombre" 
-                    th:field="*{nombre}" class="form-control" placeholder="ej: Jaén"/>
-                <input th:unless="${accion}!='borrar'" name="nombre" 
-                    th:field="*{nombre}" class="form-control" disabled/>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="comunidad">Comunidad Autónoma:</label>
-                <input th:if="${accion}!='borrar'" name="comunidad" 
-                    th:field="*{comunidad}" class="form-control" placeholder="ej: Andalucía"/>
-                <input th:unless="${accion}!='borrar'" name="comunidad" 
-                    th:field="*{comunidad}" class="form-control" disabled/>
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-success">Enviar!</button>
-                <button type="reset" class="btn btn-danger">Cancelar</button>
+            <label class="field" for="comunidad">
+                <span class="field-label">Comunidad Autónoma</span>
+                <input th:if="${accion}!='borrar'" name="comunidad"
+                       th:field="*{comunidad}" class="input" placeholder="ej: Andalucía"/>
+                <input th:unless="${accion}!='borrar'" name="comunidad"
+                       th:field="*{comunidad}" class="input" disabled/>
+            </label>
+
+            <div class="form-actions">
+                <button type="submit" class="btn" th:classappend="${accion == 'borrar'} ? 'btn--danger' : 'btn--ok'"
+                        th:text="${accion == 'borrar'} ? 'Sí, borrar' : 'Enviar!'">Enviar!</button>
+                <a href="/admin/provincia" class="btn">Cancelar</a>
             </div>
         </form>
+    </main>
 
-        </div>
-        <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
-    </div>
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
 </body>
 </html>

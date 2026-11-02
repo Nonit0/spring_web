@@ -1,79 +1,65 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="headfiles">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 
-    <link rel="stylesheet" href="/webjars/bootstrap/5.3.8/dist/css/bootstrap.css"> 
-    -->
-  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.css">
-  <link rel="stylesheet" href="/webjars/font-awesome/css/all.css">
-  <title th:text="${titulo}"></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" th:href="@{/css/tienda.css}" href="/css/tienda.css">
+  <title th:text="${titulo} ?: 'Tienda Virtual de Camisetas'">Tienda Virtual de Camisetas</title>
 </head>
 
 <body>
   <div>
-    <nav th:fragment="navegacion" class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Provincias
-              </a>
-              <ul class="dropdown-menu">
-                <li class="nav-item">
-                  <a class="dropdown-item" href="/admin/provincia">Listado provincias</a>
-                </li>
-                <li><a class="dropdown-item" href="/admin/provincia/add">Alta provincia</a></li>                
+    <header th:fragment="navegacion" class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark">TVC</span>
+          <span class="brand-text"><strong>Tienda Virtual</strong><span>de Camisetas</span></span>
+        </a>
+        <ul class="nav">
+          <li><a class="nav-link" href="/">Inicio</a></li>
+          <li>
+            <details class="nav-dd">
+              <summary class="nav-link">Provincias</summary>
+              <ul class="nav-dd-menu">
+                <li><a href="/admin/provincia">Listado provincias</a></li>
+                <li><a href="/admin/provincia/add">Alta provincia</a></li>
               </ul>
-            </li>
-
-            <!-- codigo postal-->
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Códigos Postales
-              </a>
-              <ul class="dropdown-menu">
-                <li class="nav-item">
-                  <a class="dropdown-item" href="/admin/codPos">Listado Códigos Postales</a>
-                </li>
-                <li><a class="dropdown-item" href="/admin/codPos/add">Alta Códigos Postales</a></li>                
+            </details>
+          </li>
+          <li>
+            <details class="nav-dd">
+              <summary class="nav-link">Códigos Postales</summary>
+              <ul class="nav-dd-menu">
+                <li><a href="/admin/codPos">Listado Códigos Postales</a></li>
+                <li><a href="/admin/codPos/add">Alta Códigos Postales</a></li>
               </ul>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="/admin/usuario">Usuarios</a>
-            </li>
-            <li sec:authorize="isAuthenticated()" class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-            <li sec:authorize="isAnonymous()" class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            <li sec:authorize="isAnonymous()" class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
-            </li>
-          </ul>
-        </div>
+            </details>
+          </li>
+          <li><a class="nav-link" href="/admin/usuario">Usuarios</a></li>
+          <li class="nav-sep" aria-hidden="true"></li>
+          <li sec:authorize="isAuthenticated()"><a class="btn btn--nav btn--danger" href="/logout">Logout</a></li>
+          <li sec:authorize="isAnonymous()"><a class="btn btn--nav" href="/login">Login</a></li>
+          <li sec:authorize="isAnonymous()"><a class="btn btn--nav btn--primary" href="/register">Register</a></li>
+        </ul>
       </div>
-    </nav>
+    </header>
 
-    <footer th:fragment="footer">
-      <script src="/webjars/jquery/jquery.min.js"></script>
-      <script src="/webjars/popper.js/umd/popper.min.js"></script>
-      <script src="/webjars/bootstrap/js/bootstrap.js"></script>
+    <footer th:fragment="footer" class="site-footer">
+      <div class="footer-inner">
+        <span>© 2026 Tienda Virtual de Camisetas</span>
+        <span>Spring Boot · Thymeleaf · JPA</span>
+      </div>
+      <script>
+        document.addEventListener('click', function (e) {
+          document.querySelectorAll('.nav-dd[open]').forEach(function (d) {
+            if (!d.contains(e.target)) d.removeAttribute('open');
+          });
+        });
+      </script>
     </footer>
   </div>
 </body>
