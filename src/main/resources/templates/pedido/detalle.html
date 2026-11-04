@@ -14,11 +14,11 @@
         <div class="page-head">
             <div class="page-head-text">
                 <span class="kicker" th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}"></span>
-                <h1 class="title" th:text="|Pedido #${pedido.id}|">Pedido</h1>
+                <h1 class="title" th:text="|Pedido #${numero}|">Pedido</h1>
             </div>
             <span class="badge" th:text="${pedido.estado.etiqueta}" th:classappend="${pedido.estado.name() == 'CANCELADO'} ? 'badge--danger' : (${pedido.estado.name() == 'ENTREGADO'} ? 'badge--ok' : 'badge--accent')"></span>
         </div>
-        <p sec:authorize="hasAuthority('ADMIN')" class="mono" th:text="|Cliente: ${pedido.usuario.username}|"></p>
+        <p sec:authorize="hasAuthority('ADMIN')" class="mono" th:text="|Cliente: ${pedido.usuario.username} · su pedido n.º ${numeroCliente}|"></p>
         <div class="table-wrap">
             <table class="table" style="min-width:560px">
                 <thead><tr><th>Camiseta</th><th>Talla</th><th>Color</th><th>Unidades</th><th class="t-right">Precio</th><th class="t-right">Subtotal</th></tr></thead>

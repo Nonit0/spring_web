@@ -14,4 +14,7 @@ public interface RepoPedido extends JpaRepository<Pedido, Long> {
     List<Pedido> findByUsuarioOrderByFechaDesc(Usuario usuario);
 
     List<Pedido> findAllByOrderByFechaDesc();
+
+    /** Posición del pedido entre los de su cliente: no cambia porque los pedidos no se borran. */
+    long countByUsuarioAndIdLessThanEqual(Usuario usuario, Long id);
 }

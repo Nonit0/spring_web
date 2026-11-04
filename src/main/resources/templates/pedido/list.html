@@ -20,8 +20,8 @@
             <table class="table" style="min-width:560px">
                 <thead><tr><th>Pedido</th><th>Fecha</th><th>Estado</th><th class="t-right">Total</th><th></th></tr></thead>
                 <tbody>
-                    <tr th:each="p : ${pedidos}">
-                        <td><span class="code-chip" th:text="|#${p.id}|"></span></td>
+                    <tr th:each="p, st : ${pedidos}">
+                        <td><span class="code-chip" th:text="|#${pedidos.size() - st.index}|"></span></td>
                         <td class="t-mono" th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy HH:mm')}"></td>
                         <td><span class="badge" th:text="${p.estado.etiqueta}" th:classappend="${p.estado.name() == 'CANCELADO'} ? 'badge--danger' : (${p.estado.name() == 'ENTREGADO'} ? 'badge--ok' : 'badge--accent')"></span></td>
                         <td class="t-right t-mono" th:text="|${#numbers.formatDecimal(p.total, 1, 'POINT', 2, 'COMMA')} €|"></td>

@@ -36,7 +36,10 @@ public class PedidoController {
         return "pedido/list";
     }
 
-    /** Un cliente solo ve sus pedidos: los ajenos responden como si no existieran. */
+    /**
+     * Un cliente solo ve sus pedidos, y los ajenos responden como si no existieran.
+     * Cada cliente los ve numerados desde el 1; el admin ve el número global.
+     */
     @GetMapping("/{id}")
     public String detalle(@PathVariable Long id, Authentication auth, Model modelo) {
         Pedido pedido = repoPedido.findById(id)
@@ -45,8 +48,12 @@ public class PedidoController {
         if (!esAdmin && !pedido.getUsuario().getUsername().equals(auth.getName())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        modelo.addAttribute("titulo", "Pedido " + pedido.getId());
+        long numeroCliente = repoPedido.countByUsuarioAndIdLessThanEqual(pedido.getUsuario(), pedido.getId());
+        long numero = esAdmin ? pedido.getId() : numeroCliente;
+        modelo.addAttribute("titulo", "Pedido " + numero);
         modelo.addAttribute("pedido", pedido);
+        modelo.addAttribute("numero", numero);
+        modelo.addAttribute("numeroCliente", numeroCliente);
         return "pedido/detalle";
     }
 }
