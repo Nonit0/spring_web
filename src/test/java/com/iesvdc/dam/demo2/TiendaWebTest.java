@@ -170,7 +170,7 @@ class TiendaWebTest {
     void laCabeceraTieneMenuSesionYEnlaceANonit0() throws Exception {
         mvc.perform(get("/")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("class=\"burger\"")))
-                .andExpect(content().string(containsString("href=\"https://nonit0.dev/\"")))
+                .andExpect(content().string(containsString("class=\"home-strip\" href=\"https://nonit0.dev/\"")))
                 .andExpect(content().string(containsString("href=\"/login\"")));
         mvc.perform(get("/").with(user("ana.demo").authorities(() -> "CLIENTE")))
                 .andExpect(content().string(containsString("Logout")))
