@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page page--narrow">
+        <div class="page-head-text">
+            <span class="kicker">Tu cuenta</span>
+            <h1 class="title">Mis pedidos</h1>
+        </div>
+        <div class="empty" th:if="${pedidos.isEmpty()}">
+            <strong>Aún no tienes pedidos</strong>
+            <a class="btn btn--primary" href="/catalogo">Ver catálogo</a>
+        </div>
+        <div class="table-wrap" th:unless="${pedidos.isEmpty()}">
+            <table class="table" style="min-width:560px">
+                <thead><tr><th>Pedido</th><th>Fecha</th><th>Estado</th><th class="t-right">Total</th><th></th></tr></thead>
+                <tbody>
+                    <tr th:each="p : ${pedidos}">
+                        <td><span class="code-chip" th:text="|#${p.id}|"></span></td>
+                        <td class="t-mono" th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td><span class="badge" th:text="${p.estado.etiqueta}" th:classappend="${p.estado.name() == 'CANCELADO'} ? 'badge--danger' : (${p.estado.name() == 'ENTREGADO'} ? 'badge--ok' : 'badge--accent')"></span></td>
+                        <td class="t-right t-mono" th:text="|${#numbers.formatDecimal(p.total, 1, 'POINT', 2, 'COMMA')} €|"></td>
+                        <td class="t-right"><a class="btn btn--sm" th:href="@{/pedidos/{id}(id=${p.id})}">Ver</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

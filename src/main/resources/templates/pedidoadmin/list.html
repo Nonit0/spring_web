@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page">
+        <div class="page-head-text">
+            <span class="kicker">Admin / Pedidos</span>
+            <h1 class="title">Pedidos</h1>
+        </div>
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
+        <div class="empty" th:if="${pedidos.isEmpty()}"><strong>Aún no hay pedidos</strong></div>
+        <div class="table-wrap" th:unless="${pedidos.isEmpty()}">
+            <table class="table" style="min-width:820px">
+                <thead><tr><th>Pedido</th><th>Fecha</th><th>Cliente</th><th class="t-right">Total</th><th>Estado</th><th class="t-right">Acciones</th></tr></thead>
+                <tbody>
+                    <tr th:each="p : ${pedidos}">
+                        <td><span class="code-chip" th:text="|#${p.id}|"></span></td>
+                        <td class="t-mono" th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td class="t-strong" th:text="${p.usuario.username}"></td>
+                        <td class="t-right t-mono" th:text="|${#numbers.formatDecimal(p.total, 1, 'POINT', 2, 'COMMA')} €|"></td>
+                        <td>
+                            <form class="estado-form" th:action="@{/admin/pedido/{id}/estado(id=${p.id})}" method="post">
+                                <select class="select" name="estado" th:disabled="${p.estado.name() == 'CANCELADO'}" th:attr="aria-label=|Estado del pedido ${p.id}|">
+                                    <option th:each="e : ${estados}" th:value="${e}" th:text="${e.etiqueta}" th:selected="${e == p.estado}"></option>
+                                </select>
+                                <button class="btn btn--sm" type="submit" th:unless="${p.estado.name() == 'CANCELADO'}">Guardar</button>
+                            </form>
+                        </td>
+                        <td class="t-right"><a class="btn btn--sm btn--primary" th:href="@{/pedidos/{id}(id=${p.id})}">Ver</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

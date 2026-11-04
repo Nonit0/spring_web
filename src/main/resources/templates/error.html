@@ -15,9 +15,8 @@
                 <span th:text="${#strings.substring(code,2,3)}">0</span>
             </th:block>
         </div>
-        <h1 class="title title--md"><span th:text="${titulo} != null ? ${titulo} : 'Error al procesar su petición' "></span></h1>
-        <p class="lead" th:text="${mensaje} != null ? ${mensaje} : 'Ha ocurrido un error inesperado.
-        vuelva a intentarlo más tarde o contacte con el administrador.' "></p>
+        <h1 class="title title--md" th:text="${titulo != null} ? ${titulo} : (${status == 404} ? 'No encontrado' : 'Error al procesar su petición')">Error</h1>
+        <p class="lead" th:text="${mensaje != null} ? ${mensaje} : (${status == 404} ? 'Esta página no existe o ya no está disponible.' : 'Ha ocurrido un error inesperado. Vuelve a intentarlo más tarde.')">Error</p>
         <a href="/" class="btn btn--dark">Volver al inicio</a>
     </main>
 

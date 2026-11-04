@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page page--narrow">
+        <div class="page-head-text">
+            <span class="kicker">Tu compra</span>
+            <h1 class="title">Carrito</h1>
+        </div>
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
+        <div class="empty" th:if="${lineas.isEmpty()}">
+            <strong>Tu carrito está vacío</strong>
+            <p>Añade alguna camiseta del catálogo.</p>
+            <a class="btn btn--primary" href="/catalogo">Ver catálogo</a>
+        </div>
+
+        <th:block th:unless="${lineas.isEmpty()}">
+            <div class="stack">
+                <article class="card cart-line" th:each="l : ${lineas}">
+                    <a class="cart-art" th:href="@{/catalogo/{id}(id=${l.camiseta.id})}">
+                        <svg th:replace="~{fragmentos/general.html :: camiseta(${l.camiseta.color})}"></svg>
+                    </a>
+                    <div class="cart-info">
+                        <strong th:text="${l.camiseta.nombre}">Camiseta</strong>
+                        <span class="mono" th:text="|${l.camiseta.talla.etiqueta} · ${l.camiseta.color.etiqueta}|"></span>
+                        <span th:if="${l.sinStockSuficiente()}" class="badge badge--danger" th:text="|Solo quedan ${l.camiseta.stock}|"></span>
+                    </div>
+                    <form class="cart-qty" th:action="@{/carrito/update}" method="post">
+                        <input type="hidden" name="id" th:value="${l.camiseta.id}">
+                        <input class="input input--mono" type="number" name="cantidad" min="0" th:max="${l.camiseta.stock}" th:value="${l.cantidad}" th:attr="aria-label=|Cantidad de ${l.camiseta.nombre}|">
+                        <button class="btn btn--sm" type="submit">Actualizar</button>
+                    </form>
+                    <span class="price" th:text="|${#numbers.formatDecimal(l.subtotal(), 1, 'POINT', 2, 'COMMA')} €|"></span>
+                    <form th:action="@{/carrito/remove}" method="post">
+                        <input type="hidden" name="id" th:value="${l.camiseta.id}">
+                        <button class="btn btn--sm btn--danger" type="submit">Quitar</button>
+                    </form>
+                </article>
+            </div>
+            <div class="card card--pad cart-total">
+                <span class="price price--big" th:text="|Total: ${#numbers.formatDecimal(total, 1, 'POINT', 2, 'COMMA')} €|"></span>
+                <a class="btn btn--dark" href="/carrito/pago" th:unless="${faltaStock}">Continuar →</a>
+                <span class="alert alert--warn" th:if="${faltaStock}">Ajusta las cantidades para continuar.</span>
+            </div>
+        </th:block>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

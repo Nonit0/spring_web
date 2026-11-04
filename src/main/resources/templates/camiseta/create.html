@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page page--xs">
+        <div class="page-head-text">
+            <a href="/admin/camiseta" class="back-link">← Camisetas</a>
+            <h1 class="title" th:text="${accion == 'añadir'} ? 'Nueva camiseta' : 'Editar camiseta'">Camiseta</h1>
+        </div>
+        <form class="card card--lg card--pad" method="post" th:object="${camiseta}"
+              th:action="${accion == 'añadir'} ? @{/admin/camiseta/add} : @{/admin/camiseta/edit/{id}(id=*{id})}">
+            <label class="field">
+                <span class="field-label">Nombre</span>
+                <input class="input" th:field="*{nombre}" maxlength="80" required>
+                <span class="field-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+            </label>
+            <div class="form-grid form-grid--1-2">
+                <label class="field">
+                    <span class="field-label">Talla</span>
+                    <select class="select" th:field="*{talla}" required>
+                        <option value="">Elige</option>
+                        <option th:each="t : ${tallas}" th:value="${t}" th:text="${t.etiqueta}"></option>
+                    </select>
+                    <span class="field-error" th:if="${#fields.hasErrors('talla')}" th:errors="*{talla}"></span>
+                </label>
+                <label class="field">
+                    <span class="field-label">Color</span>
+                    <select class="select" th:field="*{color}" required>
+                        <option value="">Elige</option>
+                        <option th:each="c : ${colores}" th:value="${c}" th:text="${c.etiqueta}"></option>
+                    </select>
+                    <span class="field-error" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
+                </label>
+            </div>
+            <div class="form-grid form-grid--1-2">
+                <label class="field">
+                    <span class="field-label">Precio (€)</span>
+                    <input class="input input--mono" type="number" step="0.01" min="0.01" th:field="*{precio}" required>
+                    <span class="field-error" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span>
+                </label>
+                <label class="field">
+                    <span class="field-label">Stock</span>
+                    <input class="input input--mono" type="number" min="0" th:field="*{stock}" required>
+                    <span class="field-error" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
+                </label>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn--ok">Guardar</button>
+                <a href="/admin/camiseta" class="btn">Cancelar</a>
+            </div>
+        </form>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>
