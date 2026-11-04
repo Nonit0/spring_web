@@ -159,6 +159,14 @@ class TiendaWebTest {
     }
 
     @Test
+    void elModoOscuroEstaDisponibleSinIniciarSesion() throws Exception {
+        mvc.perform(get("/catalogo")).andExpect(status().isOk())
+                .andExpect(content().string(containsString("/js/tema.js")))
+                .andExpect(content().string(containsString("theme-toggle")));
+        mvc.perform(get("/js/tema.js")).andExpect(status().isOk());
+    }
+
+    @Test
     void unClienteNoCambiaElEstadoDeUnPedido() throws Exception {
         Pedido pedido = pedidoDe("ana.demo");
         mvc.perform(post("/admin/pedido/" + pedido.getId() + "/estado").with(csrf())

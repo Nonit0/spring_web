@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <script th:src="@{/js/tema.js}" src="/js/tema.js"></script>
   <link rel="stylesheet" th:href="@{/css/tienda.css}" href="/css/tienda.css">
   <title th:text="${titulo} != null ? |${titulo} · NeoCamisetas| : 'NeoCamisetas'">NeoCamisetas</title>
 </head>
@@ -40,6 +41,7 @@
               </ul>
             </details>
           </li>
+          <li><button type="button" class="btn btn--nav theme-toggle" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar entre modo claro y oscuro"></button></li>
           <li class="nav-sep" aria-hidden="true"></li>
           <li sec:authorize="isAuthenticated()">
             <form th:action="@{/logout}" method="post"><button type="submit" class="btn btn--nav btn--danger">Logout</button></form>
