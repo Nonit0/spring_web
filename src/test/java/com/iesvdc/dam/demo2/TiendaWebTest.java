@@ -23,6 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.iesvdc.dam.demo2.modelos.Camiseta;
 import com.iesvdc.dam.demo2.modelos.Pedido;
+import com.iesvdc.dam.demo2.modelos.Rol;
+import com.iesvdc.dam.demo2.modelos.Usuario;
+import com.iesvdc.dam.demo2.repositorios.RepoCodPos;
 import com.iesvdc.dam.demo2.repositorios.RepoCamiseta;
 import com.iesvdc.dam.demo2.repositorios.RepoPedido;
 import com.iesvdc.dam.demo2.repositorios.RepoUsuario;
@@ -42,6 +45,8 @@ class TiendaWebTest {
     RepoPedido repoPedido;
     @Autowired
     PedidoService pedidoService;
+    @Autowired
+    RepoCodPos repoCodPos;
 
     private Camiseta conStock() {
         return repoCamiseta.findAll().stream().filter(c -> c.getStock() > 5).findFirst().orElseThrow();
@@ -110,6 +115,47 @@ class TiendaWebTest {
         mvc.perform(get(ruta).with(user("luis.demo").authorities(() -> "CLIENTE"))).andExpect(status().isNotFound());
         mvc.perform(get(ruta).with(user("admin.demo").authorities(() -> "ADMIN"))).andExpect(status().isOk())
                 .andExpect(content().string(containsString("ana.demo")));
+    }
+
+    @Test
+    void cadaClienteNumeraSusPedidosDesdeElUnoYElAdminVeElGlobal() throws Exception {
+        Usuario marta = new Usuario();
+        marta.setUsername("marta.prueba");
+        marta.setPassword("x");
+        marta.setEmail("marta.prueba@example.com");
+        marta.setTelefono(600000099);
+        marta.setNif("00000099X");
+        marta.setRol(Rol.CLIENTE);
+        repoUsuario.save(marta);
+        pedidoDe("ana.demo");
+        Pedido primero = pedidoDe("marta.prueba");
+        pedidoDe("ana.demo");
+        Pedido segundo = pedidoDe("marta.prueba");
+        var clienta = user("marta.prueba").authorities(() -> "CLIENTE");
+        var admin = user("admin.demo").authorities(() -> "ADMIN");
+
+        mvc.perform(get("/pedidos/" + primero.getId()).with(clienta))
+                .andExpect(content().string(containsString("Pedido #1<")));
+        mvc.perform(get("/pedidos/" + segundo.getId()).with(clienta))
+                .andExpect(content().string(containsString("Pedido #2<")));
+        mvc.perform(get("/pedidos").with(clienta))
+                .andExpect(content().string(containsString(">#2<")))
+                .andExpect(content().string(containsString(">#1<")))
+                .andExpect(content().string(not(containsString(">#" + segundo.getId() + "<"))));
+        mvc.perform(get("/pedidos/" + segundo.getId()).with(admin))
+                .andExpect(content().string(containsString("Pedido #" + segundo.getId() + "<")))
+                .andExpect(content().string(containsString("su pedido n.º 2")));
+        mvc.perform(get("/admin/pedido").with(admin))
+                .andExpect(content().string(containsString(">#" + segundo.getId() + "<")));
+    }
+
+    @Test
+    void cargaLosVeinteCodigosPostalesDeJaenYMalaga() throws Exception {
+        assertThat(repoCodPos.count()).isEqualTo(20);
+        assertThat(repoCodPos.findByCp(23700).orElseThrow().getMunicipio()).isEqualTo("Linares");
+        assertThat(repoCodPos.findByCp(29600).orElseThrow().getProvincia().getNombre()).isEqualTo("Málaga");
+        mvc.perform(get("/admin/codPos").with(user("admin.demo").authorities(() -> "ADMIN"))).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Torremolinos")));
     }
 
     @Test
