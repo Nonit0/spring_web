@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page page--xs">
+        <a href="/carrito" class="back-link">← Carrito</a>
+        <h1 class="title">Confirmar pedido</h1>
+        <div class="alert alert--info">Pago simulado: no se pide ninguna tarjeta y no se cobra nada.</div>
+        <div class="table-wrap">
+            <table class="table">
+                <thead><tr><th>Camiseta</th><th>Unidades</th><th class="t-right">Subtotal</th></tr></thead>
+                <tbody>
+                    <tr th:each="l : ${lineas}">
+                        <td class="t-strong" th:text="|${l.camiseta.nombre} (${l.camiseta.talla.etiqueta})|"></td>
+                        <td class="t-mono" th:text="${l.cantidad}"></td>
+                        <td class="t-right t-mono" th:text="|${#numbers.formatDecimal(l.subtotal(), 1, 'POINT', 2, 'COMMA')} €|"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card card--pad cart-total">
+            <span class="price price--big" th:text="|Total: ${#numbers.formatDecimal(total, 1, 'POINT', 2, 'COMMA')} €|"></span>
+            <form th:action="@{/carrito/pago}" method="post" th:unless="${faltaStock}">
+                <button class="btn btn--ok" type="submit">Confirmar pedido</button>
+            </form>
+            <a class="btn" href="/carrito" th:if="${faltaStock}">Ajustar cantidades</a>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

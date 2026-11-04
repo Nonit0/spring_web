@@ -1,4 +1,4 @@
-/* Tienda Virtual de Camisetas — neobrutalismo "Ácido" */
+/* NeoCamisetas — neobrutalismo "Ácido" */
 :root {
   --bg: #E9E9E2;
   --paper: #FFFFFF;
@@ -210,4 +210,42 @@ p { margin: 0; }
   .form-grid--3-1, .form-grid--1-2 { grid-template-columns: 1fr; }
   .nav { margin-left: 0; }
   .nav-sep { display: none; }
+}
+
+/* ---------- Tienda ---------- */
+.nav-count { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 6px; border: 2px solid var(--ink); border-radius: 999px; background: var(--lima); font-size: 12px; line-height: 1; }
+.nav form { margin: 0; }
+.tee { display: block; width: 100%; height: 100%; }
+.hero-art .tee { position: absolute; inset: 12%; width: 76%; height: 76%; filter: drop-shadow(8px 8px 0 var(--ink)); }
+.tee-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 28px; }
+.tee-card { display: flex; flex-direction: column; overflow: hidden; text-decoration: none; transition: transform .08s, box-shadow .08s; }
+.tee-card:hover { transform: translate(-3px, -3px); box-shadow: calc(var(--sh) + 3px) calc(var(--sh) + 3px) 0 var(--ink); text-decoration: none; }
+.tee-art { position: relative; display: block; aspect-ratio: 1 / 1; padding: 14%; border-bottom: var(--b) solid var(--ink); }
+.tee-art--0 { background: var(--lima); }
+.tee-art--1 { background: var(--morado); }
+.tee-art--2 { background: var(--naranja); }
+.tee-art--big { border: var(--b) solid var(--ink); border-radius: var(--r); box-shadow: var(--sh) var(--sh) 0 var(--ink); }
+.tee-flag { position: absolute; top: 12px; left: 12px; }
+.tee-info { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 18px; }
+.tee-info strong { font-family: var(--f-head); font-weight: 800; font-size: 20px; line-height: 1.1; }
+.price { font-family: var(--f-mono); font-weight: 600; font-size: 18px; white-space: nowrap; }
+.price--big { font-size: 28px; }
+.filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 20px; align-items: end; }
+.buy-form { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 14px; align-items: end; }
+.cart-line { display: grid; grid-template-columns: 88px minmax(0, 1fr) auto auto auto; gap: 18px; align-items: center; padding: 14px 18px; }
+.cart-art { display: block; width: 88px; height: 88px; padding: 8px; border: var(--b) solid var(--ink); border-radius: 10px; background: var(--lima); }
+.cart-info { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; }
+.cart-info strong { font-family: var(--f-head); font-weight: 800; font-size: 19px; line-height: 1.1; }
+.cart-qty { display: flex; gap: 8px; align-items: center; }
+.cart-qty .input { width: 84px; padding: 8px 10px; }
+.cart-total { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.color-dot { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--ink); border-radius: 50%; vertical-align: -2px; }
+.field-error { color: #B3261E; font-weight: 600; font-size: 14px; }
+.estado-form { display: flex; gap: 8px; align-items: center; }
+.estado-form .select { width: 150px; padding: 8px 36px 8px 10px; font-size: 15px; }
+@media (max-width: 720px) {
+  .cart-line { grid-template-columns: 72px minmax(0, 1fr); }
+  .cart-art { width: 72px; height: 72px; }
+  .cart-qty, .cart-line > .price, .cart-line > form:last-child { grid-column: 2; }
+  .buy-form { grid-template-columns: 1fr; }
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page">
+        <div class="page-head">
+            <div class="page-head-text">
+                <span class="kicker kicker--lima">Catálogo</span>
+                <h1 class="title">Camisetas</h1>
+            </div>
+            <span class="mono" th:text="|${camisetas.size()} resultados|">0 resultados</span>
+        </div>
+
+        <form class="card card--pad filters" th:action="@{/catalogo}" method="get">
+            <label class="field">
+                <span class="field-label">Talla</span>
+                <select class="select" name="talla">
+                    <option value="">Todas</option>
+                    <option th:each="t : ${tallas}" th:value="${t}" th:text="${t.etiqueta}" th:selected="${t == tallaElegida}"></option>
+                </select>
+            </label>
+            <label class="field">
+                <span class="field-label">Color</span>
+                <select class="select" name="color">
+                    <option value="">Todos</option>
+                    <option th:each="c : ${colores}" th:value="${c}" th:text="${c.etiqueta}" th:selected="${c == colorElegido}"></option>
+                </select>
+            </label>
+            <div class="row-actions">
+                <button type="submit" class="btn btn--primary">Filtrar</button>
+                <a class="btn" href="/catalogo" th:if="${tallaElegida != null or colorElegido != null}">Quitar filtros</a>
+            </div>
+        </form>
+
+        <div class="tee-grid" th:unless="${camisetas.isEmpty()}">
+            <th:block th:each="c, st : ${camisetas}">
+                <a th:replace="~{fragmentos/general.html :: tarjeta(${c}, ${st.index})}"></a>
+            </th:block>
+        </div>
+        <div class="empty" th:if="${camisetas.isEmpty()}">
+            <strong>Sin resultados</strong>
+            <p>No hay camisetas con esos filtros.</p>
+            <a class="btn" href="/catalogo">Ver todas</a>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

@@ -39,14 +39,17 @@ public class SecurityConf {
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests((request) -> request
+                        .requestMatchers("/carrito/pago", "/pedidos/**")
+                        .authenticated()
                         .requestMatchers("/", "/css/**", "/webjars/**", "/img/**", "/js/**",
                                 "/register/**", "/ayuda/**", "/login", "/login/**",
                                 "/codpos/**", "/denegado", "/error", "/inserta",
-                                "/acerca")
+                                "/acerca", "/catalogo/**", "/carrito/**")
                         .permitAll()
-                        .requestMatchers("/admin/**", "/admin/*/**", "/admin/*/*/**")
-                        .hasAuthority("ADMIN"))
-                        //.authenticated())
+                        .requestMatchers("/admin/**")
+                        .hasAuthority("ADMIN")
+                        .anyRequest()
+                        .authenticated())
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/login")
                         .permitAll())
@@ -58,7 +61,6 @@ public class SecurityConf {
                         // .deleteCookies("JSESSIONID") // no es necesario, JSESSIONID se hace por
                         // defecto
                         .permitAll())
-                .csrf((protection) -> protection.disable())
                 .build();
     } 
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page page--xs">
+        <a href="/admin/camiseta" class="back-link">← Camisetas</a>
+        <h1 class="title">Borrar camiseta</h1>
+        <div class="alert alert--warn">Se borrará del catálogo. Los pedidos antiguos conservarán sus datos.</div>
+        <div class="card card--pad stack">
+            <strong th:text="${camiseta.nombre}"></strong>
+            <span class="mono" th:text="|${camiseta.talla.etiqueta} · ${camiseta.color.etiqueta}|"></span>
+            <form class="form-actions" th:action="@{/admin/camiseta/del/{id}(id=${camiseta.id})}" method="post">
+                <button type="submit" class="btn btn--danger">Sí, borrar</button>
+                <a href="/admin/camiseta" class="btn">Cancelar</a>
+            </form>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

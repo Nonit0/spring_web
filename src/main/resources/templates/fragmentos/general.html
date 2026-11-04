@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;600&display=swap">
   <link rel="stylesheet" th:href="@{/css/tienda.css}" href="/css/tienda.css">
-  <title th:text="${titulo} ?: 'Tienda Virtual de Camisetas'">Tienda Virtual de Camisetas</title>
+  <title th:text="${titulo} != null ? |${titulo} · NeoCamisetas| : 'NeoCamisetas'">NeoCamisetas</title>
 </head>
 
 <body>
@@ -16,42 +16,62 @@
     <header th:fragment="navegacion" class="site-header">
       <div class="header-inner">
         <a class="brand" href="/">
-          <span class="brand-mark">TVC</span>
-          <span class="brand-text"><strong>Tienda Virtual</strong><span>de Camisetas</span></span>
+          <span class="brand-mark">NC</span>
+          <span class="brand-text"><strong>NeoCamisetas</strong><span>Tienda de camisetas</span></span>
         </a>
         <ul class="nav">
           <li><a class="nav-link" href="/">Inicio</a></li>
+          <li><a class="nav-link" href="/catalogo">Catálogo</a></li>
           <li>
+            <a class="nav-link" href="/carrito">Carrito
+              <span class="nav-count" th:if="${carritoUnidades != null and carritoUnidades > 0}" th:text="${carritoUnidades}">0</span>
+            </a>
+          </li>
+          <li sec:authorize="isAuthenticated()"><a class="nav-link" href="/pedidos">Mis pedidos</a></li>
+          <li sec:authorize="hasAuthority('ADMIN')">
             <details class="nav-dd">
-              <summary class="nav-link">Provincias</summary>
+              <summary class="nav-link">Administración</summary>
               <ul class="nav-dd-menu">
-                <li><a href="/admin/provincia">Listado provincias</a></li>
-                <li><a href="/admin/provincia/add">Alta provincia</a></li>
+                <li><a href="/admin/camiseta">Camisetas</a></li>
+                <li><a href="/admin/pedido">Pedidos</a></li>
+                <li><a href="/admin/usuario">Usuarios</a></li>
+                <li><a href="/admin/provincia">Provincias</a></li>
+                <li><a href="/admin/codPos">Códigos postales</a></li>
               </ul>
             </details>
           </li>
-          <li>
-            <details class="nav-dd">
-              <summary class="nav-link">Códigos Postales</summary>
-              <ul class="nav-dd-menu">
-                <li><a href="/admin/codPos">Listado Códigos Postales</a></li>
-                <li><a href="/admin/codPos/add">Alta Códigos Postales</a></li>
-              </ul>
-            </details>
-          </li>
-          <li><a class="nav-link" href="/admin/usuario">Usuarios</a></li>
           <li class="nav-sep" aria-hidden="true"></li>
-          <li sec:authorize="isAuthenticated()"><a class="btn btn--nav btn--danger" href="/logout">Logout</a></li>
+          <li sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post"><button type="submit" class="btn btn--nav btn--danger">Logout</button></form>
+          </li>
           <li sec:authorize="isAnonymous()"><a class="btn btn--nav" href="/login">Login</a></li>
           <li sec:authorize="isAnonymous()"><a class="btn btn--nav btn--primary" href="/register">Register</a></li>
         </ul>
       </div>
     </header>
 
+    <svg th:fragment="camiseta(color)" class="tee" viewBox="0 0 100 100" role="img"
+         th:attr="aria-label=|Camiseta de color ${color.etiqueta}|">
+      <path d="M31 11 11 25l9 19 10-6v52h40V38l10 6 9-19-20-14c-3 8-10 12-19 12s-16-4-19-12Z"
+            th:attr="fill=${color.hex}" stroke="#0B0B0B" stroke-width="3.5" stroke-linejoin="round"/>
+    </svg>
+
+    <a th:fragment="tarjeta(c, i)" class="card tee-card" th:href="@{/catalogo/{id}(id=${c.id})}">
+      <span class="tee-art" th:classappend="|tee-art--${i % 3}|">
+        <svg th:replace="~{fragmentos/general.html :: camiseta(${c.color})}"></svg>
+        <span th:if="${c.agotada}" class="badge badge--danger tee-flag">Agotada</span>
+      </span>
+      <span class="tee-info">
+        <strong th:text="${c.nombre}">Camiseta</strong>
+        <span class="mono" th:text="|${c.talla.etiqueta} · ${c.color.etiqueta}|">M · Negro</span>
+        <span class="price" th:text="|${#numbers.formatDecimal(c.precio, 1, 'POINT', 2, 'COMMA')} €|">0,00 €</span>
+      </span>
+    </a>
+
     <footer th:fragment="footer" class="site-footer">
       <div class="footer-inner">
-        <span>© 2026 Tienda Virtual de Camisetas</span>
-        <span>Spring Boot · Thymeleaf · JPA</span>
+        <span>© 2026 NeoCamisetas</span>
+        <span>Proyecto de ejemplo: pagos simulados · Spring Boot · MySQL</span>
       </div>
       <script>
         document.addEventListener('click', function (e) {

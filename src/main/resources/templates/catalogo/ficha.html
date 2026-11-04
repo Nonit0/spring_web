@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page page--narrow">
+        <a href="/catalogo" class="back-link">← Catálogo</a>
+        <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
+        <section class="split">
+            <div class="tee-art tee-art--0 tee-art--big">
+                <svg th:replace="~{fragmentos/general.html :: camiseta(${camiseta.color})}"></svg>
+            </div>
+            <div class="stack">
+                <span class="kicker" th:text="|${camiseta.talla.etiqueta} · ${camiseta.color.etiqueta}|">M · Negro</span>
+                <h1 class="title title--md" th:text="${camiseta.nombre}">Camiseta</h1>
+                <p class="price price--big" th:text="|${#numbers.formatDecimal(camiseta.precio, 1, 'POINT', 2, 'COMMA')} €|">0,00 €</p>
+                <p th:if="${camiseta.agotada}"><span class="badge badge--danger">Agotada</span></p>
+                <p th:unless="${camiseta.agotada}" class="mono" th:text="|${camiseta.stock} en stock|">0 en stock</p>
+                <form th:unless="${camiseta.agotada}" th:action="@{/carrito/add}" method="post" class="buy-form">
+                    <input type="hidden" name="id" th:value="${camiseta.id}">
+                    <label class="field">
+                        <span class="field-label">Cantidad</span>
+                        <input class="input input--mono" type="number" name="cantidad" value="1" min="1" th:max="${camiseta.stock}" required>
+                    </label>
+                    <button type="submit" class="btn btn--primary">Añadir al carrito</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

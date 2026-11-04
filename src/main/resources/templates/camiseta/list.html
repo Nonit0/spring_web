@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page">
+        <div class="page-head">
+            <div class="page-head-text">
+                <span class="kicker">Admin / Camisetas</span>
+                <h1 class="title">Camisetas</h1>
+            </div>
+            <a href="/admin/camiseta/add" class="btn btn--primary">+ Nueva camiseta</a>
+        </div>
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}"></div>
+        <div th:if="${error}" class="alert alert--error" th:text="${error}"></div>
+        <div class="table-wrap">
+            <table class="table" style="min-width:780px">
+                <thead><tr><th>ID</th><th>Nombre</th><th>Talla</th><th>Color</th><th class="t-right">Precio</th><th class="t-right">Stock</th><th class="t-right">Acciones</th></tr></thead>
+                <tbody>
+                    <tr th:each="c : ${camisetas}">
+                        <td><span class="code-chip" th:text="${c.id}"></span></td>
+                        <td class="t-strong" th:text="${c.nombre}"></td>
+                        <td th:text="${c.talla.etiqueta}"></td>
+                        <td><span class="color-dot" th:style="|background:${c.color.hex}|"></span> <span th:text="${c.color.etiqueta}"></span></td>
+                        <td class="t-right t-mono" th:text="|${#numbers.formatDecimal(c.precio, 1, 'POINT', 2, 'COMMA')} €|"></td>
+                        <td class="t-right t-mono"><span th:text="${c.stock}" th:classappend="${c.agotada} ? 'badge badge--danger'"></span></td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn--sm btn--primary" th:href="@{/admin/camiseta/edit/{id}(id=${c.id})}">Editar</a>
+                                <a class="btn btn--sm btn--danger" th:href="@{/admin/camiseta/del/{id}(id=${c.id})}">Borrar</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>

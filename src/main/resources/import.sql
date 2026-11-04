@@ -1,7 +1,19 @@
 INSERT INTO `provincia` (`codigo`, `comunidad`, `nombre`) VALUES ('29', 'Andalucía', 'Málaga');
 INSERT INTO `provincia` (`codigo`, `comunidad`, `nombre`) VALUES ('23', 'Andalucía', 'Jaén');
-
-
-
 INSERT INTO `usuario` (`email`, `nif`, `password`, `rol`, `telefono`, `username`, `enabled` ) VALUES ('pepe@sincorreo.com', '123456789F', '$2a$10$LhG/8HBWdMfK5lXd9x3Hy.xZBRU7OrQeLRvsscnIuEFF4ohZ16ZlG', 'ADMIN', '555123456', 'admin', 1);
 INSERT INTO `cod_pos` (`cp`, `provincia_codigo`, `municipio`) VALUES (23150, 23, 'Valdepeñas de Jaén');
+INSERT INTO `usuario` (`email`, `nif`, `password`, `rol`, `telefono`, `username`, `enabled`) VALUES ('admin.demo@example.com', '00000000T', '$2a$10$EFWqP7H8xKyC5zrtUehFteSvMN4hL7Ya2Na6y3bZaXVJRcf5Jrtl6', 'ADMIN', 600000010, 'admin.demo', true);
+INSERT INTO `usuario` (`email`, `nif`, `password`, `rol`, `telefono`, `username`, `enabled`) VALUES ('ana.demo@example.com', '00000001R', '$2a$10$EFWqP7H8xKyC5zrtUehFteSvMN4hL7Ya2Na6y3bZaXVJRcf5Jrtl6', 'CLIENTE', 600000011, 'ana.demo', true);
+INSERT INTO `usuario` (`email`, `nif`, `password`, `rol`, `telefono`, `username`, `enabled`) VALUES ('luis.demo@example.com', '00000002W', '$2a$10$EFWqP7H8xKyC5zrtUehFteSvMN4hL7Ya2Na6y3bZaXVJRcf5Jrtl6', 'CLIENTE', 600000012, 'luis.demo', true);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Infantil Dinosaurio', 'NINO_10', 'VERDE', 12.50, 50);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Infantil Unicornio', 'NINA_10', 'ROSA', 12.50, 45);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Básica Junior', 'NINO_14', 'AZUL', 14.00, 30);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Estampada Junior', 'NINA_14', 'BLANCO', 15.00, 35);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Entallada', 'XS', 'NEGRO', 18.00, 20);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Deportiva Transpirable', 'S', 'ROJO', 22.50, 60);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Edición Especial', 'M', 'BLANCO', 35.00, 100);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Logo Clásico', 'L', 'GRIS', 20.00, 80);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Urbana Oversize', 'XL', 'NEGRO', 25.00, 40);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Básica Confort', 'XXL', 'AZUL_MARINO', 19.99, 25);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Última Unidad', 'M', 'MORADO', 24.00, 1);
+INSERT INTO `camiseta` (`nombre`, `talla`, `color`, `precio`, `stock`) VALUES ('Camiseta Agotada', 'L', 'NARANJA', 21.00, 0);

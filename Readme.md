@@ -1,8 +1,71 @@
-# Proyecto: Gestión de Persistencia con Spring Data JPA
+# NeoCamisetas
+
+Tienda de camisetas con Spring Boot, Spring Data JPA, Spring Security, Thymeleaf y MySQL. Es un proyecto de ejemplo: **el pago es simulado y no se cobra nada**.
+
+## Qué incluye
+
+- **Catálogo público:** filtros por talla y color, y ficha de cada camiseta.
+- **Carrito:** se guarda en la sesión y se conserva al iniciar sesión.
+- **Pedidos:** al confirmar se comprueba y descuenta el stock en una sola transacción, con bloqueo de fila. Si falta stock de una línea, no se guarda nada.
+- **Mis pedidos:** cada cliente ve solo los suyos.
+- **Administración:** camisetas, pedidos y sus estados, usuarios, provincias y códigos postales. Cancelar un pedido devuelve el stock.
+- **Seguridad:** contraseñas con BCrypt, roles y protección CSRF.
+
+## Demo
+
+Puedes probarla sin instalar nada en [`neocamisetas.nonit0.dev`](https://neocamisetas.nonit0.dev). Es una recreación estática que guarda los cambios en tu navegador; este repo contiene el proyecto real con Spring Boot y MySQL.
+
+## Puesta en marcha
+
+Requiere Java 21 y Docker.
+
+```bash
+cp src/main/resources/stack-spring-camiseta/.env.example src/main/resources/stack-spring-camiseta/.env
+# Elige una contraseña en ese .env
+docker compose --project-directory src/main/resources/stack-spring-camiseta -f src/main/resources/stack-spring-camiseta/docker-compose.yml up -d
+./mvnw spring-boot:run
+```
+
+La web queda en `http://localhost:8080`. La base de datos se recrea en cada arranque con los datos de `import.sql`.
+
+| Usuario local | Contraseña | Rol |
+| :--- | :--- | :--- |
+| `admin.demo` | `demo1234` | Administrador |
+| `ana.demo` | `demo1234` | Cliente |
+| `luis.demo` | `demo1234` | Cliente |
+
+Son cuentas solo para desarrollo. No uses estos datos en un despliegue real.
+
+## Pruebas
+
+```bash
+./mvnw test
+```
+
+Usan H2 en memoria, así que no necesitan Docker.
+
+## Rutas de la tienda
+
+| Verbo | Ruta | Acceso | Acción |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/catalogo` | Público | Listar y filtrar camisetas |
+| `GET` | `/catalogo/{id}` | Público | Ver una camiseta |
+| `GET` | `/carrito` | Público | Ver el carrito |
+| `POST` | `/carrito/add`, `/update`, `/remove` | Público | Modificar el carrito |
+| `GET`, `POST` | `/carrito/pago` | Con sesión | Revisar y confirmar el pedido |
+| `GET` | `/pedidos`, `/pedidos/{id}` | Con sesión | Ver los pedidos propios |
+| `GET`, `POST` | `/admin/camiseta/**` | Admin | Gestionar camisetas |
+| `GET`, `POST` | `/admin/pedido/**` | Admin | Ver pedidos y cambiar su estado |
+
+---
+
+## Módulos de administración
 
 Este proyecto implementa módulos CRUD (Crear, Leer, Actualizar, Borrar) utilizando **Spring Boot**, **Spring Data JPA** (Hibernate ORM) y **Thymeleaf** para la gestión de la persistencia de las entidades clave del sistema: `Provincia`, `CodPos`, `Usuario` y `Direccion`.
 
 ## 📸 Capturas
+
+Son anteriores a la tienda y muestran el panel de administración.
 
 ![Página de inicio](docs/capturas/inicio.png)
 

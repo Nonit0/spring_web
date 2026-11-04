@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragmentos/general.html :: headfiles}">
 </head>
@@ -11,34 +11,54 @@
         <section class="split">
             <div class="stack">
                 <span class="kicker kicker--lima">Tienda online</span>
-                <h1 class="title title--xl">Tienda Virtual de <span class="title-mark">Camisetas</span></h1>
-                <p class="lead">Camisetas de algodón con envío a toda España. Elige modelo, talla y color.</p>
+                <h1 class="title title--xl">Neo<span class="title-mark">Camisetas</span></h1>
+                <p class="lead">Elige modelo, talla y color, y haz tu pedido. Es un proyecto de ejemplo: el pago es simulado y no se cobra nada.</p>
                 <div class="row-actions">
-                    <a href="/admin/usuario" class="btn btn--dark">Entrar al panel →</a>
-                    <a href="/register" class="btn">Crear cuenta</a>
+                    <a href="/catalogo" class="btn btn--dark">Ver catálogo →</a>
+                    <a href="/register" class="btn" sec:authorize="isAnonymous()">Crear cuenta</a>
                 </div>
             </div>
-            <!-- Sustituye el fondo por una foto: style="background-image:url('/img/hero.jpg')" -->
             <div class="hero-art">
-                <span class="sticker">Nueva<br>colección</span>
+                <svg th:replace="~{fragmentos/general.html :: camiseta(${colorPortada})}"></svg>
+                <span class="sticker">Pago<br>simulado</span>
             </div>
         </section>
 
-        <section class="stack">
+        <section class="stack" th:if="${!destacadas.isEmpty()}">
+            <div class="section-head">
+                <h2>Destacadas</h2>
+                <a class="mono" href="/catalogo">Ver todas →</a>
+            </div>
+            <div class="tee-grid">
+                <th:block th:each="c, st : ${destacadas}">
+                    <a th:replace="~{fragmentos/general.html :: tarjeta(${c}, ${st.index})}"></a>
+                </th:block>
+            </div>
+        </section>
+
+        <section class="stack" sec:authorize="hasAuthority('ADMIN')">
             <div class="section-head">
                 <h2>Administración</h2>
                 <span class="mono">Requiere rol ADMIN</span>
             </div>
             <div class="tiles">
-                <a href="/admin/provincia" class="card tile tile--lima">
+                <a href="/admin/camiseta" class="card tile tile--morado">
+                    <span class="mono">/admin/camiseta</span>
+                    <strong>Camisetas</strong>
+                </a>
+                <a href="/admin/pedido" class="card tile tile--lima">
+                    <span class="mono">/admin/pedido</span>
+                    <strong>Pedidos</strong>
+                </a>
+                <a href="/admin/provincia" class="card tile tile--naranja">
                     <span class="mono">/admin/provincia</span>
                     <strong>Provincias</strong>
                 </a>
-                <a href="/admin/codPos" class="card tile tile--morado">
+                <a href="/admin/codPos" class="card tile tile--lima">
                     <span class="mono">/admin/codPos</span>
                     <strong>Códigos postales</strong>
                 </a>
-                <a href="/admin/usuario" class="card tile tile--naranja">
+                <a href="/admin/usuario" class="card tile tile--morado">
                     <span class="mono">/admin/usuario</span>
                     <strong>Usuarios</strong>
                 </a>

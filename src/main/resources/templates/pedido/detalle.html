@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragmentos/general.html :: headfiles}">
+</head>
+
+<body>
+    <header th:replace="~{fragmentos/general.html :: navegacion}"></header>
+
+    <main class="page page--narrow">
+        <a href="/pedidos" class="back-link" sec:authorize="!hasAuthority('ADMIN')">← Mis pedidos</a>
+        <a href="/admin/pedido" class="back-link" sec:authorize="hasAuthority('ADMIN')">← Pedidos</a>
+        <div th:if="${mensaje}" class="alert alert--ok" th:text="${mensaje}"></div>
+        <div class="page-head">
+            <div class="page-head-text">
+                <span class="kicker" th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}"></span>
+                <h1 class="title" th:text="|Pedido #${pedido.id}|">Pedido</h1>
+            </div>
+            <span class="badge" th:text="${pedido.estado.etiqueta}" th:classappend="${pedido.estado.name() == 'CANCELADO'} ? 'badge--danger' : (${pedido.estado.name() == 'ENTREGADO'} ? 'badge--ok' : 'badge--accent')"></span>
+        </div>
+        <p sec:authorize="hasAuthority('ADMIN')" class="mono" th:text="|Cliente: ${pedido.usuario.username}|"></p>
+        <div class="table-wrap">
+            <table class="table" style="min-width:560px">
+                <thead><tr><th>Camiseta</th><th>Talla</th><th>Color</th><th>Unidades</th><th class="t-right">Precio</th><th class="t-right">Subtotal</th></tr></thead>
+                <tbody>
+                    <tr th:each="l : ${pedido.lineas}">
+                        <td class="t-strong" th:text="${l.nombre}"></td>
+                        <td th:text="${l.talla.etiqueta}"></td>
+                        <td th:text="${l.color.etiqueta}"></td>
+                        <td class="t-mono" th:text="${l.cantidad}"></td>
+                        <td class="t-right t-mono" th:text="|${#numbers.formatDecimal(l.precioUnitario, 1, 'POINT', 2, 'COMMA')} €|"></td>
+                        <td class="t-right t-mono" th:text="|${#numbers.formatDecimal(l.subtotal, 1, 'POINT', 2, 'COMMA')} €|"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card card--pad cart-total">
+            <span class="price price--big" th:text="|Total: ${#numbers.formatDecimal(pedido.total, 1, 'POINT', 2, 'COMMA')} €|"></span>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragmentos/general.html :: footer}"></footer>
+</body>
+</html>
