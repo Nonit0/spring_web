@@ -68,7 +68,6 @@ p { margin: 0; }
 .nav-link:hover, .nav-link.is-active { border-color: var(--ink); }
 .nav-link.is-active { background: var(--morado); }
 .nav-link::-webkit-details-marker { display: none; }
-.nav-sep { width: 3px; height: 32px; background: var(--ink); margin: 0 8px; }
 
 .nav-dd { position: relative; }
 .nav-dd > summary::after { content: "▼"; font-size: 10px; }
@@ -213,6 +212,52 @@ p { margin: 0; }
 .err-digits span:nth-child(2) { background: var(--morado); transform: rotate(3deg); }
 .err-digits span:nth-child(3) { background: var(--naranja); transform: rotate(-2deg); }
 
+/* ---------- Cabecera: menú, sesión y vuelta a nonit0.dev ---------- */
+/* En escritorio el menú se reparte en la barra; el orden deja el enlace a nonit0.dev arriba a la derecha. */
+.menu { display: contents; }
+.nav { order: 1; }
+.theme-toggle { order: 2; }
+.menu-register { order: 4; }
+.session { order: 3; display: flex; align-items: center; padding-left: 16px; border-left: 3px solid var(--ink); }
+.session form { margin: 0; }
+.menu-register { margin-left: -8px; }
+.home-link { order: 5; padding: 8px 4px; font-family: var(--f-mono); font-weight: 600; font-size: 13px; white-space: nowrap; }
+.burger { display: none; position: relative; align-items: center; justify-content: center; width: 46px; height: 42px; padding: 0; border: 2px solid var(--ink); border-radius: var(--r); background: var(--paper); color: var(--ink); box-shadow: 3px 3px 0 var(--shadow); cursor: pointer; }
+.burger-i, .burger-i::before, .burger-i::after { display: block; width: 20px; height: 3px; background: currentColor; transition: transform .12s; }
+.burger-i { position: relative; }
+.burger-i::before, .burger-i::after { content: ""; position: absolute; left: 0; }
+.burger-i::before { top: -7px; }
+.burger-i::after { top: 7px; }
+.site-header.open .burger-i { background: transparent; }
+.site-header.open .burger-i::before { transform: translateY(7px) rotate(45deg); }
+.site-header.open .burger-i::after { transform: translateY(-7px) rotate(-45deg); }
+.burger-count { position: absolute; top: -9px; right: -9px; min-width: 22px; height: 22px; font-family: var(--f-mono); font-weight: 600; }
+
+/* Por debajo de 1200 px la barra completa de un administrador ya no cabe en una línea. */
+@media (max-width: 1200px) {
+  .header-inner { flex-wrap: wrap; gap: 12px; padding: 10px 16px; }
+  .brand { flex: 1; min-width: 0; }
+  .session { order: 0; padding-left: 0; border-left: 0; }
+  .js .burger { display: inline-flex; }
+  .menu { display: flex; order: 1; flex-basis: 100%; flex-direction: column; align-items: stretch; gap: 10px; padding-top: 10px; border-top: 2px solid var(--ink); }
+  .js .site-header:not(.open) .menu { display: none; }
+  .nav { flex-direction: column; align-items: stretch; flex-wrap: nowrap; gap: 2px; margin: 0; }
+  .nav-link { min-height: 44px; justify-content: space-between; }
+  .nav-dd > summary { list-style: none; }
+  .nav-dd-menu { position: static; min-width: 0; margin-top: 6px; box-shadow: none; }
+  .theme-toggle { align-self: flex-start; width: 100%; font-size: 13px; font-family: var(--f-mono); }
+  .theme-toggle::after { content: "Cambiar a modo oscuro"; margin-left: 10px; }
+  .menu-register { margin-left: 0; text-align: center; }
+  .home-link { min-height: 44px; display: flex; align-items: center; gap: 6px; padding: 8px 14px; }
+  .site-header { position: static; }
+}
+@media (max-width: 400px) {
+  .brand-text span { display: none; }
+  .brand-mark { width: 42px; height: 42px; }
+  .brand-text strong { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .burger-i, .burger-i::before, .burger-i::after { transition: none; } }
+
 /* ---------- Modo oscuro ---------- */
 :root[data-theme="dark"] {
   --bg: #121214;
@@ -243,13 +288,12 @@ p { margin: 0; }
 .theme-toggle { min-width: 44px; min-height: 40px; padding: 6px 10px; line-height: 1; font-size: 18px; cursor: pointer; }
 .theme-toggle::before { content: "\263E\FE0E"; }
 :root[data-theme="dark"] .theme-toggle::before { content: "\2600\FE0E"; }
+@media (max-width: 1200px) { :root[data-theme="dark"] .theme-toggle::after { content: "Cambiar a modo claro"; } }
 
 @media (max-width: 720px) {
   .page { padding: 32px 16px 56px; }
   .card--pad { padding: 22px; }
   .form-grid--3-1, .form-grid--1-2 { grid-template-columns: 1fr; }
-  .nav { margin-left: 0; }
-  .nav-sep { display: none; }
 }
 
 /* ---------- Tienda ---------- */

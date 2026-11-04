@@ -161,9 +161,20 @@ class TiendaWebTest {
     @Test
     void elModoOscuroEstaDisponibleSinIniciarSesion() throws Exception {
         mvc.perform(get("/catalogo")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("/js/tema.js")))
+                .andExpect(content().string(containsString("/js/interfaz.js")))
                 .andExpect(content().string(containsString("theme-toggle")));
-        mvc.perform(get("/js/tema.js")).andExpect(status().isOk());
+        mvc.perform(get("/js/interfaz.js")).andExpect(status().isOk());
+    }
+
+    @Test
+    void laCabeceraTieneMenuSesionYEnlaceANonit0() throws Exception {
+        mvc.perform(get("/")).andExpect(status().isOk())
+                .andExpect(content().string(containsString("class=\"burger\"")))
+                .andExpect(content().string(containsString("href=\"https://nonit0.dev/\"")))
+                .andExpect(content().string(containsString("href=\"/login\"")));
+        mvc.perform(get("/").with(user("ana.demo").authorities(() -> "CLIENTE")))
+                .andExpect(content().string(containsString("Logout")))
+                .andExpect(content().string(not(containsString("href=\"/login\""))));
     }
 
     @Test
